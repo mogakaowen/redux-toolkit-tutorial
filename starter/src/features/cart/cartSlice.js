@@ -1,14 +1,43 @@
-import { createSlice } from "@reduxjs/toolkit";
-import cartItems from "../../cartItems";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+// import cartItems from "../../cartItems";
+
+const url = "https://course-api.com/react-useReducer-cart-project";
 
 const initialState = {
-  cartItems: cartItems,
+  cartItems: [],
   amount: 0,
   total: 0,
   isLoading: true,
 };
 
-const cartSlice = createSlice({
+// export const fetchCartItems = createAsyncThunk(
+//   "cart/fetchCartItems",
+//   async () => {
+//     return fetch(url)
+//       .then((response) => response.json())
+//       .catch((error) => console.log(error));
+//   }
+// );
+
+export const fetchCartItems = createAsyncThunk(
+  "cart/fetchCartItems",
+  async (name, thunkAPI) => {
+    try {
+      console.log(name);
+      console.log("thunkAPI: ", thunkAPI);
+      console.log("thunkAPI.getState(): ", thunkAPI.getState());
+      const response = await axios(url);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
@@ -51,6 +80,21 @@ const cartSlice = createSlice({
       state.amount = amount;
       state.total = total;
     },
+  },
+
+  extraReducers: (builder) => {
+    // Lifecycle actions for createAsyncThunk
+    builder
+      .addCase(fetchCartItems.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchCartItems.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.cartItems = action.payload;
+      })
+      .addCase(fetchCartItems.rejected, (state) => {
+        state.isLoading = false;
+      });
   },
 });
 
