@@ -12,15 +12,6 @@ const initialState = {
   isLoading: true,
 };
 
-// export const fetchCartItems = createAsyncThunk(
-//   "cart/fetchCartItems",
-//   async () => {
-//     return fetch(url)
-//       .then((response) => response.json())
-//       .catch((error) => console.log(error));
-//   }
-// );
-
 export const fetchCartItems = createAsyncThunk(
   "cart/fetchCartItems",
   async (name, thunkAPI) => {
@@ -29,6 +20,7 @@ export const fetchCartItems = createAsyncThunk(
       console.log("thunkAPI: ", thunkAPI);
       console.log("thunkAPI.getState(): ", thunkAPI.getState());
       const response = await axios(url);
+      console.log("response: ", response);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -46,11 +38,14 @@ export const cartSlice = createSlice({
     },
 
     removeItem: (state, action) => {
+      console.log("action: ", action);
+      console.log("action.payload: ", action.payload);
       const itemId = action.payload;
       state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
     },
 
     increaseAmount: (state, { payload }) => {
+      console.log("payload: ", payload);
       const itemId = payload.id;
       const cartItem = state.cartItems.find((item) => item.id === itemId);
       cartItem.amount++;
