@@ -38,8 +38,8 @@ export const cartSlice = createSlice({
     },
 
     removeItem: (state, action) => {
-      console.log("action: ", action);
-      console.log("action.payload: ", action.payload);
+      console.log("action: ", action); // action is an object with a type and payload property => action: {type: "cart/removeItem", payload: id}
+      console.log("action.payload: ", action.payload); // action.payload is the id of the item passed
       const itemId = action.payload;
       state.cartItems = state.cartItems.filter((item) => item.id !== itemId);
     },
@@ -58,6 +58,7 @@ export const cartSlice = createSlice({
     // },
 
     decreaseAmount: (state, action) => {
+      console.log("action: ", action); // action: {type: "cart/decreaseAmount", payload: id}
       const itemId = action.payload;
       const cartItem = state.cartItems.find((item) => item.id === itemId);
       cartItem.amount--;
