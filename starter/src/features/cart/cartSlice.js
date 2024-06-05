@@ -3,11 +3,11 @@ import axios from "axios";
 
 // import cartItems from "../../cartItems";
 
-// const url = "https://cors.bridged.cc/https://course-api.com/react-useReducer-cart-project";
+const url = "https://course-api.com/react-useReducer-cart-project";
 
 // use this to bypass cors error
-const url =
-  "https://cors.bridged.cc/https://course-api.com/react-useReducer-cart-project";
+// const url =
+//   "https://cors.bridged.cc/https://course-api.com/react-useReducer-cart-project";
 
 const initialState = {
   cartItems: [],
