@@ -16,11 +16,11 @@ function App() {
 
   useEffect(() => {
     dispatch(calculateAmountAndTotals());
-  }, [cartItems]);
+  }, [dispatch, cartItems]);
 
   useEffect(() => {
     dispatch(fetchCartItems("Random name"));
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return (
